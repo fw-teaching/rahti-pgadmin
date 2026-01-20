@@ -1,20 +1,21 @@
 FROM python:3.11-slim
 
-# Install dependencies
-RUN apt-get update && apt-get install -y \
-    libpq-dev curl && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y libpq-dev curl \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install pgAdmin
 RUN pip install pgadmin4
 
-# Create non-root user
-RUN useradd -m pgadmin
-USER pgadmin
-WORKDIR /home/pgadmin
+# Create pgAdmin data dir with OpenShift-friendly permissions
+RUN mkdir -p /var/lib/pgadmin \
+    && chgrp -R 0 /var/lib/pgadmin \
+    && chmod -R g+rwX /var/lib/pgadmin
 
-# Environment for pgAdmin login
+# Do NOT set a fixed USER
+WORKDIR /var/lib/pgadmin
+
 ENV PGADMIN_DEFAULT_EMAIL=admin@example.com
 ENV PGADMIN_DEFAULT_PASSWORD=secret
+ENV PGADMIN_LISTEN_PORT=80
 
 EXPOSE 80
 CMD ["pgadmin4"]
