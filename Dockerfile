@@ -17,4 +17,4 @@ ENV PGADMIN_DEFAULT_EMAIL=admin@example.com
 ENV PGADMIN_DEFAULT_PASSWORD=secret
 
 EXPOSE 80
-CMD ["python3", "-m", "pgadmin4"]
+CMD ["pgadmin4"]
