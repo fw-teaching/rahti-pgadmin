@@ -1,0 +1,5 @@
+FROM dpage/pgadmin4:latest
+USER 1001
+ENV PGADMIN_DEFAULT_EMAIL=admin@example.com
+ENV PGADMIN_DEFAULT_PASSWORD=secret
+EXPOSE 80
